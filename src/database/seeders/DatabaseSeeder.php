@@ -18,5 +18,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        //FolderSeederを呼び出す
+        $this->call(FolderSeeder::class);
+        //TaskSeederを呼び出す
+        $this->call(TaskSeeder::class);
+        
     }
 }
