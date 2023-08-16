@@ -1,3 +1,5 @@
+version: '3.8'
+
 volumes:
   db-store:
   psysh-store:
@@ -5,6 +7,12 @@ volumes:
 configs:
   db-config:
     file: ./infra/docker/mysql/my.cnf
+
+networks:
+  mynetwork:
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
 
 services:
   app:
@@ -33,6 +41,8 @@ services:
       - DB_DATABASE=${DB_DATABASE:-todo}
       - DB_USERNAME=${DB_USERNAME:-phper}
       - DB_PASSWORD=${DB_PASSWORD:-secret}
+    networks:
+      - mynetwork
 
   web:
     build:
@@ -47,6 +57,8 @@ services:
       - type: bind
         source: ./src
         target: /workspace
+    networks:
+      - mynetwork
 
   db:
     build:
@@ -71,6 +83,9 @@ services:
       - MYSQL_USER=${DB_USERNAME:-phper}
       - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+    networks:
+      mynetwork:
+        ipv4_address: 172.25.0.5
 
   mailpit:
     image: axllent/mailpit
@@ -79,3 +94,5 @@ services:
         published: ${MAILPIT_PUBLISHED_PORT:-8025}
         protocol: tcp
         mode: host
+    networks:
+      - mynetwork
