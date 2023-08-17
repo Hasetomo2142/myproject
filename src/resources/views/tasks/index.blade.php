@@ -1,64 +1,72 @@
-@extends('layout')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            タスク管理
+        </h2>
+    </x-slot>
 
-@section('content')
-<div class="container">
-  <div class="row">
-    <div class="col col-md-4">
-      <nav class="panel panel-default">
-        <div class="panel-heading">フォルダ</div>
-        <div class="panel-body">
-          <a href="{{ route('folders.create') }}" class="btn btn-default btn-block">
-            フォルダを追加する
-          </a>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 flex flex-wrap">
+                    <div class="w-full md:w-1/3 px-4">
+                        <div class="bg-white shadow-md rounded-md">
+                            <div class="bg-gray-200 p-4">フォルダ</div>
+                            <div class="p-4">
+                                <a href="{{ route('folders.create') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-full text-center">
+                                    フォルダを追加する
+                                </a>
+                            </div>
+                            <div class="list-group">
+                                @foreach($folders as $folder)
+                                <a href="{{ route('tasks.index', ['id' => $folder->id]) }}"
+                                    class="block py-2 px-4 hover:bg-gray-200 {{ $current_folder_id === $folder->id ? 'bg-blue-500 text-white' : 'text-black' }}">
+                                    {{ $folder->title }}
+                                </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 px-4">
+                        <div class="bg-white shadow-md rounded-md">
+                            <div class="bg-gray-200 p-4">タスク</div>
+                            <div class="p-4">
+                                <div class="text-right">
+                                    <a href="{{ route('tasks.create', ['id' => $current_folder_id]) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-full text-center">
+                                        タスクを追加する
+                                    </a>
+                                </div>
+                            </div>
+                            <table class="min-w-full bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="py-2 px-4 border-b border-gray-200">タイトル</th>
+                                        <th class="py-2 px-4 border-b border-gray-200">状態</th>
+                                        <th class="py-2 px-4 border-b border-gray-200">期限</th>
+                                        <th class="py-2 px-4 border-b border-gray-200"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($tasks as $task)
+                                    <tr>
+                                        <td class="py-2 px-4 border-b border-gray-200">{{ $task->title }}</td>
+                                        <td class="py-2 px-4 border-b border-gray-200">
+                                            <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
+                                        </td>
+                                        <td class="py-2 px-4 border-b border-gray-200">{{ $task->formatted_due_date }}</td>
+                                        <td class="py-2 px-4 border-b border-gray-200">
+                                            <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}" class="text-blue-500 hover:text-blue-800">
+                                                編集
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="list-group">
-          @foreach($folders as $folder)
-          <a href="{{ route('tasks.index', ['id' => $folder->id]) }}"
-            class="list-group-item {{ $current_folder_id === $folder->id ? 'active' : '' }}">
-            {{ $folder->title }}
-          </a>
-          @endforeach
-        </div>
-      </nav>
     </div>
-    <div class="column col-md-8">
-      <div class="panel panel-default">
-        <div class="panel-heading">タスク</div>
-        <div class="panel-body">
-          <div class="text-right">
-            <a href="{{ route('tasks.create', ['id' => $current_folder_id]) }}" class="btn btn-default btn-block">
-              タスクを追加する
-            </a>
-          </div>
-        </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>タイトル</th>
-              <th>状態</th>
-              <th>期限</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($tasks as $task)
-            <tr>
-              <td>{{ $task->title }}</td>
-              <td>
-                <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
-              </td>
-              <td>{{ $task->formatted_due_date }}</td>
-              <td>
-                <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
-                  編集
-                </a>
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-@endsection
+</x-app-layout>
