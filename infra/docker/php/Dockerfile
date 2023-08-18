@@ -35,13 +35,14 @@ RUN apt-get update \
   && composer config -g process-timeout 3600 \
   && composer config -g repos.packagist composer https://packagist.org \
   && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-  && apt-get install -y nodejs \
-  && npm install
+  && apt-get install -y nodejs
 
+# Development stage
 FROM base AS development
 
 COPY ./infra/docker/php/php.development.ini /usr/local/etc/php/php.ini
 
+# Development with Xdebug
 FROM development AS development-xdebug
 
 RUN pecl install xdebug && \
@@ -49,6 +50,7 @@ RUN pecl install xdebug && \
 
 COPY ./infra/docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
+# Deployment stage
 FROM base AS deploy
 
 COPY ./infra/docker/php/php.deploy.ini /usr/local/etc/php/php.ini
@@ -57,4 +59,5 @@ COPY ./src /workspace
 RUN composer install -q -n --no-ansi --no-dev --no-scripts --no-progress --prefer-dist \
   && chmod -R 777 storage bootstrap/cache \
   && php artisan optimize:clear \
-  && php artisan optimize
+  && php artisan optimize \
+  && npm install # This will install the project dependencies
