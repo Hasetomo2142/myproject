@@ -9,11 +9,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 flex flex-wrap">
+
+
                     <div class="w-full md:w-1/3 px-4">
                         <div class="bg-white shadow-md rounded-md">
                             <div class="bg-gray-200 p-4">フォルダ</div>
                             <div class="p-4">
-                                <a href="{{ route('folders.create') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-full text-center">
+                                <a href="{{ route('folders.create') }}"
+                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-full text-center">
                                     フォルダを追加する
                                 </a>
                             </div>
@@ -32,7 +35,8 @@
                             <div class="bg-gray-200 p-4">タスク</div>
                             <div class="p-4">
                                 <div class="text-right">
-                                    <a href="{{ route('tasks.create', ['id' => $current_folder_id]) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-full text-center">
+                                    <a href="{{ route('tasks.create', ['id' => $current_folder_id]) }}"
+                                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-full text-center">
                                         タスクを追加する
                                     </a>
                                 </div>
@@ -51,11 +55,14 @@
                                     <tr>
                                         <td class="py-2 px-4 border-b border-gray-200">{{ $task->title }}</td>
                                         <td class="py-2 px-4 border-b border-gray-200">
-                                            <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
+                                            <span class="label {{ $task->status_class }}">{{ $task->status_label
+                                                }}</span>
                                         </td>
-                                        <td class="py-2 px-4 border-b border-gray-200">{{ $task->formatted_due_date }}</td>
+                                        <td class="py-2 px-4 border-b border-gray-200">{{ $task->formatted_due_date }}
+                                        </td>
                                         <td class="py-2 px-4 border-b border-gray-200">
-                                            <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}" class="text-blue-500 hover:text-blue-800">
+                                            <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}"
+                                                class="text-blue-500 hover:text-blue-800">
                                                 編集
                                             </a>
                                         </td>
