@@ -22,7 +22,7 @@
                             </div>
                             <div class="list-group">
                                 @foreach($folders as $folder)
-                                <a href="{{ route('tasks.index', ['id' => $folder->id]) }}"
+                                <a href="{{ route('tasks.index', ['folder' => $folder->id]) }}"
                                     class="block py-2 px-4 hover:bg-gray-200 {{ $current_folder_id === $folder->id ? 'bg-blue-500 text-white' : 'text-black' }}">
                                     {{ $folder->title }}
                                 </a>
@@ -35,7 +35,7 @@
                             <div class="bg-gray-200 p-4">タスク</div>
                             <div class="p-4">
                                 <div class="text-right">
-                                    <a href="{{ route('tasks.create', ['id' => $current_folder_id]) }}"
+                                    <a href="{{ route('tasks.create', ['folder' => $current_folder_id]) }}"
                                         class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-full text-center">
                                         タスクを追加する
                                     </a>
@@ -61,7 +61,7 @@
                                         <td class="py-2 px-4 border-b border-gray-200">{{ $task->formatted_due_date }}
                                         </td>
                                         <td class="py-2 px-4 border-b border-gray-200">
-                                            <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}"
+                                        <a href="{{ route('tasks.edit', ['folder' => $task->folder_id, 'task' => $task->id]) }}"
                                                 class="text-blue-500 hover:text-blue-800">
                                                 編集
                                             </a>
