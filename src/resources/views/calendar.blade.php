@@ -1,9 +1,3 @@
-@php
-// 日付関連の変数を設定
-$daysInMonth = date('t', mktime(0, 0, 0, $month, 1, $year)); // 月の日数を取得
-$today = date('j'); // 今日の日付を取得
-@endphp
-
 <!-- カレンダーコンポーネントのメインコンテナ -->
 <div class="bg-white shadow-md rounded-md w-4/5 mx-auto">
     <!-- カレンダーのヘッダー部分 -->
@@ -15,9 +9,9 @@ $today = date('j'); // 今日の日付を取得
         <div class="grid grid-cols-7 gap-4">
             <!-- 月の日数分ループして日付を表示 -->
             @for ($i = 1; $i <= $daysInMonth; $i++) 
+                <!-- その日のタスクを取得 -->
                 @php 
-                // その日のタスクを取得
-                $tasksForTheDay = $tasks->where('due_date', '=', date('Y-m-') . str_pad($i, 2, '0', STR_PAD_LEFT)); 
+                $tasksForTheDay = $tasksForDays[$i];
                 @endphp
                 <div class="p-2 relative">
                     <!-- 今日の日付の場合、背景に青色の丸を表示 -->
