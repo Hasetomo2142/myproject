@@ -16,6 +16,11 @@ class Task extends Model
         2 => ['label' => '着手中', 'class' => 'label-info'],
         3 => ['label' => '完了', 'class' => ''],
     ];
+    const BACKGROUND_CLASSES = [
+        1 => 'bg-red-200', // 未着手
+        2 => 'bg-blue-200', // 着手中
+        3 => 'bg-green-200' // 完了
+    ];
 
     /**
      * 状態のラベル
@@ -57,14 +62,8 @@ class Task extends Model
         // 状態値
         $status = $this->attributes['status'];
 
-        // ここで背景色を定義します。適切に調整してください。
-        $backgroundClasses = [
-            1 => 'bg-red-200', // 未着手
-            2 => 'bg-blue-200', // 着手中
-            3 => 'bg-green-200' // 完了
-        ];
 
-        return $backgroundClasses[$status] ?? '';
+        return self::BACKGROUND_CLASSES[$status] ?? '';
     }
 
 
