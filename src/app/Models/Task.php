@@ -33,7 +33,7 @@ class Task extends Model
 
         return self::STATUS[$status]['label'];
     }
-    
+
     public function getStatusClassAttribute()
     {
         // 状態値
@@ -51,5 +51,22 @@ class Task extends Model
         return Carbon::createFromFormat('Y-m-d', $this->attributes['due_date'])
             ->format('Y/m/d');
     }
+
+    public function getStatusBackgroundClassAttribute()
+    {
+        // 状態値
+        $status = $this->attributes['status'];
+
+        // ここで背景色を定義します。適切に調整してください。
+        $backgroundClasses = [
+            1 => 'bg-red-200', // 未着手
+            2 => 'bg-blue-200', // 着手中
+            3 => 'bg-green-200' // 完了
+        ];
+
+        return $backgroundClasses[$status] ?? '';
+    }
+
+
 
 }
