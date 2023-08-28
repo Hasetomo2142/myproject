@@ -66,6 +66,11 @@ class Task extends Model
         return self::BACKGROUND_CLASSES[$status] ?? '';
     }
 
+    //所属を定義
+    public function folder()
+    {
+        return $this->belongsTo('App\Models\Folder');
+    }
 
 
 }

@@ -26,7 +26,7 @@ class HomeController extends Controller
 
         // フォルダがあればそのフォルダのタスク一覧にリダイレクトする
         return redirect()->route('tasks.index', [
-            'folder' => $folder->id,
+            'folder' => $folder,
         ]);
     }
 }
