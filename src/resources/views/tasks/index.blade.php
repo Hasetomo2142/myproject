@@ -10,6 +10,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 flex flex-wrap">
 
+                    <div class="w-full md:w-2/3 px-4 mb-4" style="width: 100%;">
+                        @include('calendar', ['tasks' => $tasks, 'month' => request()->get('month', date('m')), 'year'
+                        => request()->get('year', date('Y'))])
+                    </div>
+
+
+
 
                     <div class="w-full md:w-1/3 px-4">
                         <div class="bg-white shadow-md rounded-md">
@@ -61,7 +68,7 @@
                                         <td class="py-2 px-4 border-b border-gray-200">{{ $task->formatted_due_date }}
                                         </td>
                                         <td class="py-2 px-4 border-b border-gray-200">
-                                        <a href="{{ route('tasks.edit', ['folder' => $task->folder_id, 'task' => $task->id]) }}"
+                                            <a href="{{ route('tasks.edit', ['folder' => $task->folder_id, 'task' => $task->id]) }}"
                                                 class="text-blue-500 hover:text-blue-800">
                                                 編集
                                             </a>

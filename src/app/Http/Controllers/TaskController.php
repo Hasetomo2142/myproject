@@ -16,7 +16,7 @@ class TaskController extends Controller
      * @param Folder $folder
      * @return \Illuminate\View\View
      */
-    public function index(Folder $folder)
+    public function index(Folder $folder, Request $request)
     {
         // ユーザーのフォルダを取得する
         $folders = Auth::user()->folders()->get();
@@ -24,7 +24,34 @@ class TaskController extends Controller
         // 選ばれたフォルダに紐づくタスクを取得する
         $tasks = $folder->tasks()->get();
 
+        //リクエストから月日を取得する
+        $month = $request->month;
+        $year = $request->year;
+        $today = date('j'); // 今日の日付を取得
+
+        // 月の日数を取得
+        $daysInMonth = date('t', mktime(0, 0, 0, $month, 1, $year));
+
+        // 各日のタスクを取得
+        $tasksForDays = [];
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+
+            //フォーマットを整える
+            $dateString = date('Y-m-') . str_pad($day, 2, '0', STR_PAD_LEFT);
+            $tasksForDays[$day] = collect(); // 空のコレクションを初期化
+
+
+            $tasksForDays[$day] = $tasksForDays[$day]->concat($folder->tasks()->where('due_date', $dateString)->get());
+
+        }
+
+
+
+
         return view('tasks/index', [
+            'daysInMonth' => $daysInMonth,
+            'today' => $today,
+            'tasksForDays' => $tasksForDays,
             'folders' => $folders,
             'current_folder_id' => $folder->id,
             'tasks' => $tasks,
@@ -58,7 +85,7 @@ class TaskController extends Controller
         $folder->tasks()->save($task);
 
         return redirect()->route('tasks.index', [
-            'id' => $folder->id,
+            'folder' => $folder,
         ]);
     }
 
@@ -90,7 +117,7 @@ class TaskController extends Controller
         $task->save();
 
         return redirect()->route('tasks.index', [
-            'folder' => $task->folder_id,
+            'folder' => $task->folder,
         ]);
     }
 }
